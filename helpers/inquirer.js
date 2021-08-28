@@ -1,31 +1,45 @@
 const inquirer = require("inquirer");
 const colors = require("colors");
 
-const preguntas = [
-  {
-    type: "list",
-    names: "opcion",
-    message: "Seleccione",
-    choices: [
-      `${"1".yellow}. ${"Crear tarea".cyan}`,
-      `${"2".yellow}. ${"Listar tareas".cyan}`,
-      `${"3".yellow}. ${"Listar tareas completas".cyan}`,
-      `${"4".yellow}. ${"Listar tareas pendientes".cyan}`,
-      `${"5".yellow}. ${"Completar tarea(s)".cyan}`,
-      `${"6".yellow}. ${"Borrar tarea".cyan}`,
-      `${"0".yellow}. ${"Salir".cyan}`,
-    ],
-  },
-];
 const inquirerMenu = async () => {
+  const preguntas = [
+    {
+      type: "list",
+      name: "opcion",
+      message: "Selecciona alguna opción",
+      choices: [
+        { value: 1, name: `${"1".yellow}. ${"Crear tarea".cyan}` },
+        { value: 2, name: `${"2".yellow}. ${"Listar tareas".cyan}` },
+        { value: 3, name: `${"3".yellow}. ${"Listar tareas completas".cyan}` },
+        { value: 4, name: `${"4".yellow}. ${"Listar tareas pendientes".cyan}` },
+        { value: 5, name: `${"5".yellow}. ${"Completar tarea(s)".cyan}` },
+        { value: 6, name: `${"6".yellow}. ${"Borrar tarea".cyan}` },
+        { value: 0, name: `${"0".yellow}. ${"Salir".cyan}` },
+      ],
+    },
+  ];
+
   console.clear();
   console.log("====================================".yellow);
   console.log("           MENÚ DE CONSOLA          ".cyan);
   console.log("====================================\n".yellow);
 
-  await inquirer.prompt(preguntas);
+  const { opcion } = await inquirer.prompt(preguntas);
+  return opcion;
 };
 
+
+const pause = async () => {
+    const pregunta = [
+      {
+        type: "input", 
+        name:'enter',
+        message: `Presione ${'Enter'.green} para continuar`, 
+      },
+    ];
+    await inquirer.prompt(pregunta);
+  };
 module.exports = {
   inquirerMenu,
+  pause
 };
