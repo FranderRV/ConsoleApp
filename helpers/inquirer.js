@@ -41,22 +41,60 @@ const pause = async () => {
 
 const readInput = async (message) => {
   const question = {
-    type: 'input',
-    name:'desc',
+    type: "input",
+    name: "desc",
     message,
-    validate(value){
-      if(value.length === 0){
-          return 'Por favor ingrese una descripción'
-      }else{
-        return true
+    validate(value) {
+      if (value.length === 0) {
+        return "Por favor ingrese una descripción";
+      } else {
+        return true;
       }
-    }
-  }
-  const {desc} = await inquirer.prompt(question);
+    },
+  };
+  const { desc } = await inquirer.prompt(question);
   return desc;
+};
+
+const tasksListMenu = async (tasks = {}) => {
+  const choices = Object.values(tasks).map((task, i) => {
+    let state = task.complete;
+    let stateMSG = task.complete ? "Completado".green : "Pendiente".red;
+    let index = (i + 1).toString().green;
+    let MSG = `${task.desc} ${"|".cyan} ${stateMSG}`;
+    let conditionalMSG = `${index} ${"::".cyan} ${
+      state ? MSG.green : MSG.red
+    }`;
+    return { value: task.id, name: conditionalMSG };
+  });
+choices.unshift({ value: 0, name: '0 -> Cancelar'.green })
+  const preguntas = [
+    {
+      type: "list",
+      name: "opcion",
+      message: "Seleccione la tarea",
+      choices,
+    },
+  ];
+
+  console.clear();
+  console.log("====================================".yellow);
+  console.log("           MENÚ DE CONSOLA          ".cyan);
+  console.log("====================================\n".yellow);
+
+  const { opcion } = await inquirer.prompt(preguntas);
+  return opcion;
+};
+
+const confirm = async (message) => {
+  const question = [{ type: "confirm", name: "ok", message }];
+  const { ok } = await inquirer.prompt(question);
+  return ok;
 };
 module.exports = {
   inquirerMenu,
   pause,
-  readInput
+  readInput,
+  tasksListMenu,
+  confirm,
 };

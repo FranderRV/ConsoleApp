@@ -3,12 +3,12 @@ class Task{
 
     id = 0;
     desc = '';
-    complete = null;
+    complete = false;
 
     constructor(desc){
         this.id = uuidv4();
         this.desc = desc;
-        this.complete = null;
+        this.complete = false;
     }
 
 }
