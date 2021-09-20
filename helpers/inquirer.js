@@ -1,6 +1,13 @@
 const inquirer = require("inquirer");
 const colors = require("colors");
+const header= ()=>{
+  
+  console.clear();
+  console.log("====================================".yellow);
+  console.log("           MENÚ DE CONSOLA          ".cyan);
+  console.log("====================================\n".yellow);
 
+}
 const inquirerMenu = async () => {
   const preguntas = [
     {
@@ -18,12 +25,7 @@ const inquirerMenu = async () => {
       ],
     },
   ];
-
-  console.clear();
-  console.log("====================================".yellow);
-  console.log("           MENÚ DE CONSOLA          ".cyan);
-  console.log("====================================\n".yellow);
-
+  header()
   const { opcion } = await inquirer.prompt(preguntas);
   return opcion;
 };
@@ -77,11 +79,7 @@ choices.unshift({ value: 0, name: '0 -> Cancelar'.green })
     },
   ];
 
-  console.clear();
-  console.log("====================================".yellow);
-  console.log("           MENÚ DE CONSOLA          ".cyan);
-  console.log("====================================\n".yellow);
-
+  header()
   const { opcion } = await inquirer.prompt(preguntas);
   return opcion;
 };
@@ -91,10 +89,31 @@ const confirm = async (message) => {
   const { ok } = await inquirer.prompt(question);
   return ok;
 };
+
+/*----------------------------------------------------- */
+const tasksToComplete = async (tasks = {}) => {
+  const choices = Object.values(tasks).map((task, i) => {
+   
+    return { value: task.id, name: `${(i+1).toString().green} - ${task.desc}`, checked:task.complete?true:false };
+  });
+choices.unshift({ value: 0, name: '0 -> Volver al menú'.green })
+  const preguntas = [
+    {
+      type: "checkbox",
+      name: "ids",
+      message: "Seleccione la tarea",
+      choices,
+    },
+  ];
+  header()
+  const { ids } = await inquirer.prompt(preguntas);
+  return ids;
+};
 module.exports = {
   inquirerMenu,
   pause,
   readInput,
   tasksListMenu,
   confirm,
+  tasksToComplete
 };

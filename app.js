@@ -5,6 +5,7 @@ const {
   readInput,
   tasksListMenu,
   confirm,
+  tasksToComplete,
 } = require("./helpers/inquirer");
 const Tasks = require("./models/Tasks");
 const { saveDB, readDB } = require("./helpers/functionsFile");
@@ -37,7 +38,8 @@ const main = async () => {
         console.log(tasks.filterTasks(false));
         break;
       case 5:
-        console.log(tasks.filterTasks(false));
+          const options = await tasksToComplete(tasks._list)
+          tasks.completeTasks(options) 
         break;
       case 6:
         const id = await tasksListMenu(tasks._list);

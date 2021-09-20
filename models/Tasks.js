@@ -53,10 +53,18 @@ class Tasks {
 
     return message;
   }
-
-  deleteTask(id){
-    if(this._list[id]){
-      delete this._list[id]
+  completeTasks(completeTasks = []) {
+    for (const key in this._list) {
+      if (completeTasks.includes(this._list[key].id)) {
+        this._list[key].complete = true;
+      } else {
+        this._list[key].complete = false;
+      }
+    } 
+  }
+  deleteTask(id) {
+    if (this._list[id]) {
+      delete this._list[id];
     }
   }
 }
